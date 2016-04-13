@@ -18,7 +18,7 @@
     "errorhandler": "^1.4.2",
     "express": "^4.13.3",
     "express-session": "^1.13.0",
-    "lodash": "^4.0.0",
+    "lodash": "^4.8.2",
     "morgan": "^1.6.1",
     "object-assign": "^4.0.1",
     "passport": "^0.3.2",
