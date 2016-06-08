@@ -24,7 +24,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.3.0",
-    "serve-static": "^1.10.2"
+    "serve-static": "^1.11.0"
   },
   "devDependencies": {
     "bower": "^1.7.9",
