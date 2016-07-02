@@ -17,7 +17,7 @@
     "csurf": "^1.8.3",
     "errorhandler": "^1.4.3",
     "express": "^4.13.4",
-    "express-session": "^1.13.0",
+    "express-session": "^1.14.0",
     "lodash": "^4.11.2",
     "morgan": "^1.7.0",
     "object-assign": "^4.1.0",
