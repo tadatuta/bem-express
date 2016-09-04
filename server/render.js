@@ -13,7 +13,7 @@ var path = require('path'),
 function render(req, res, data, context) {
     var query = req.query,
         user = req.user,
-        cacheKey = req.url + (context ? JSON.stringify(context) : '') + (user ? JSON.stringify(user) : ''),
+        cacheKey = req.originalUrl + (context ? JSON.stringify(context) : '') + (user ? JSON.stringify(user) : ''),
         cached = cache[cacheKey];
 
     if (useCache && cached && (new Date() - cached.timestamp < cacheTTL)) {
