@@ -13,6 +13,8 @@ var fs = require('fs'),
     slashes = require('connect-slashes'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
+    csrf = require('csurf'),
+    compression = require('compression'),
 
     config = require('./config'),
     staticFolder = config.staticFolder,
@@ -28,6 +30,7 @@ var fs = require('fs'),
 app
     .disable('x-powered-by')
     .enable('trust proxy')
+    .use(compression())
     .use(favicon(path.join(staticFolder, 'favicon.ico')))
     .use(serveStatic(staticFolder))
     .use(morgan('combined'))
@@ -40,8 +43,8 @@ app
     }))
     .use(passport.initialize())
     .use(passport.session())
+    .use(csrf())
     .use(slashes());
-    // TODO: csrf, gzip
 
 passport.serializeUser(function(user, done) {
     done(null, JSON.stringify(user));

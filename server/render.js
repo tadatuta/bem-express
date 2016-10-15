@@ -27,7 +27,8 @@ function render(req, res, data, context) {
         context: context,
         // extend with data needed for all routes
         data: Object.assign({}, {
-            url: req._parsedUrl
+            url: req._parsedUrl,
+            csrf: req.csrfToken()
         }, data)
     };
 
