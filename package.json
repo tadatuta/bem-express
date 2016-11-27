@@ -19,7 +19,7 @@
     "errorhandler": "^1.4.3",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "lodash": "^4.11.2",
+    "lodash": "^4.14.0",
     "morgan": "^1.7.0",
     "node-eval": "^1.1.0",
     "object-assign": "^4.1.0",
