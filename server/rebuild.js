@@ -11,7 +11,10 @@ var path = require('path'),
     };
 
 // enb make
-process.env.NO_AUTOMAKE || watch(path.join(rootDir, '*.blocks/**'), watchOpts)
+process.env.NO_AUTOMAKE || watch([
+        path.join(rootDir, '*.blocks/**'),
+        path.join(rootDir, '*.bundles/**/*.bemdecl.js')
+    ], watchOpts)
     .on('all', function(event, file) {
         console.time('Rebuild: ' + file);
         // NOTE: chokidar fires events before files are written
