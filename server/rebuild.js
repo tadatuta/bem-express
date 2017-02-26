@@ -1,4 +1,5 @@
-var path = require('path'),
+var fs = require('fs'),
+    path = require('path'),
     _ = require('lodash'),
     tinyLr = require('tiny-lr'),
     notifier = require('node-notifier'),
@@ -10,6 +11,12 @@ var path = require('path'),
         persistent: true,
         ignoreInitial: true
     };
+
+// get bundles list
+var bundlesDir = path.join(rootDir, 'desktop.bundles');
+var bundles = fs.readdirSync(bundlesDir).filter(function(file) {
+    return fs.statSync(path.join(bundlesDir, file)).isDirectory();
+});
 
 // enb make
 function rebuild(event, file) {
@@ -37,16 +44,18 @@ function rebuild(event, file) {
 var debouncedRebuild = _.debounce(rebuild, 30, { leading: true, trailing: true });
 
 process.env.NO_AUTOMAKE || watch([
-        path.join(rootDir, '*.blocks/**'),
-        path.join(rootDir, '*.bundles/**/*.bemdecl.js')
-    ], watchOpts).on('all', debouncedRebuild);
+    path.join(rootDir, '*.blocks', '**'),
+].concat(bundles.map(function(bundle) {
+    return path.join(bundlesDir, bundle, bundle + '.bemdecl.js');
+})), watchOpts).on('all', debouncedRebuild);
 
 // livereload
 process.env.NO_LIVERELOAD || watch([
     path.join(rootDir, 'static', '*.min.*'),
-    path.join(rootDir, 'desktop.bundles/*/*.bemhtml.js'),
-    path.join(rootDir, 'desktop.bundles/*/*.bemtree.js'),
-], watchOpts).on('all', function(event, file) {
+    path.join(bundlesDir, '*', '*.bemtree.js'),
+].concat(bundles.map(function(bundle) {
+    return path.join(bundlesDir, bundle, bundle + '.bemhtml.js');
+})), watchOpts).on('all', function(event, file) {
     tinyLr.changed(file);
 });
 
