@@ -1,4 +1,5 @@
 var path = require('path'),
+    _ = require('lodash'),
     tinyLr = require('tiny-lr'),
     notifier = require('node-notifier'),
     make = require('enb').make,
@@ -11,33 +12,34 @@ var path = require('path'),
     };
 
 // enb make
+function rebuild(event, file) {
+    // TODO: get target via file extention
+    // TODO: get current bundle via websocket
+    // NOTE: use `[path.join('desktop.bundles', 'index')]` to build specific target
+
+    console.time('Rebuild: ' + file);
+    return make()
+        .then(function() {
+            console.timeEnd('Rebuild: ' + file);
+            notifier.notify({
+                title: 'bem-express',
+                message: 'Build finished'
+            });
+        })
+        .fail(function(err) {
+            notifier.notify({
+                title: 'Build failed',
+                message: err
+            });
+        });
+}
+
+var debouncedRebuild = _.debounce(rebuild, 30, { leading: true, trailing: true });
+
 process.env.NO_AUTOMAKE || watch([
         path.join(rootDir, '*.blocks/**'),
         path.join(rootDir, '*.bundles/**/*.bemdecl.js')
-    ], watchOpts)
-    .on('all', function(event, file) {
-        console.time('Rebuild: ' + file);
-        // NOTE: chokidar fires events before files are written
-        process.nextTick(function() {
-            // TODO: get target via file extention
-            // TODO: get current bundle via websocket
-            // NOTE: use `[path.join('desktop.bundles', 'index')]` to build specific target
-            make()
-                .then(function() {
-                    console.timeEnd('Rebuild: ' + file);
-                    notifier.notify({
-                        title: 'Tycoon',
-                        message: 'Build finished'
-                    });
-                })
-                .fail(function(err) {
-                    notifier.notify({
-                        title: 'Build failed',
-                        message: err
-                    });
-                });
-        });
-    });
+    ], watchOpts).on('all', debouncedRebuild);
 
 // livereload
 process.env.NO_LIVERELOAD || watch([
