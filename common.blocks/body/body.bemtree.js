@@ -1,5 +1,5 @@
 block('body').content()(function() {
-    return [
-        'body content'
-    ];
+    return {
+        block: this.data.view
+    };
 });

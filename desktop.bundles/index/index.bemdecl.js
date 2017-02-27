@@ -1,3 +1,4 @@
 exports.blocks = [
-    { name: 'root' }
+    { name: 'root' },
+    { name: 'page-index' }
 ];
