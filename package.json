@@ -39,7 +39,7 @@
     "autoprefixer": "^6.6.1",
     "bem-components": "^6.0.0",
     "bem-core": "^4.2.0",
-    "bemhint": "^0.7.0",
+    "bemhint": "^0.8.1",
     "bemhint-css-naming": "^1.0.1",
     "bemhint-deps-specification": "^1.0.0",
     "bemhint-fs-naming": "^1.0.0",
