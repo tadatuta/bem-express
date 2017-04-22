@@ -52,7 +52,7 @@
     "enb-js": "^1.1.0",
     "enb-postcss": "^1.3.0",
     "eslint": "^3.14.0",
-    "eslint-config-pedant": "^0.8.0",
+    "eslint-config-pedant": "^0.9.0",
     "eslint-plugin-bem-xjst": "^2.1.0",
     "node-notifier": "^5.1.2",
     "node-notifier-cli": "^1.0.1",
