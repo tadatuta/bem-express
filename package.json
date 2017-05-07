@@ -36,7 +36,7 @@
     "serve-static": "^1.10.2"
   },
   "devDependencies": {
-    "autoprefixer": "^6.6.1",
+    "autoprefixer": "^7.0.1",
     "bem-components": "^6.0.0",
     "bem-core": "^4.2.0",
     "bemhint": "^0.7.0",
