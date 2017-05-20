@@ -58,7 +58,7 @@
     "node-notifier-cli": "^1.0.1",
     "nodemon": "^1.9.2",
     "postcss-calc": "^5.3.1",
-    "postcss-each": "^0.9.3",
+    "postcss-each": "^0.10.0",
     "postcss-for": "^2.1.1",
     "postcss-import": "^9.0.0",
     "postcss-nested": "^1.0.0",
