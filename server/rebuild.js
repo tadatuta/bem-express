@@ -9,7 +9,8 @@ const watch = require('chokidar').watch;
 const rootDir = path.join(__dirname, '..');
 const watchOpts = {
     persistent: true,
-    ignoreInitial: true
+    ignoreInitial: true,
+    ignored: '**/.DS_Store'
 };
 
 // get bundles list
