@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
+    "babel-eslint": "^8.2.2",
     "bem-components": "^6.0.1",
     "bem-core": "^4.2.1",
     "bemhint": "^0.9.1",

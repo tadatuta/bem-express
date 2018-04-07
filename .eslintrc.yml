@@ -1,5 +1,4 @@
-parserOptions:
-  ecmaVersion: 6
+parser: babel-eslint
 
 plugins:
   - bem-xjst
