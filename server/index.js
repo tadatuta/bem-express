@@ -1,31 +1,29 @@
-Object.assign || (Object.assign = require('object-assign'));
+const fs = require('fs');
+const path = require('path');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const favicon = require('serve-favicon');
+const morgan = require('morgan');
+const serveStatic = require('serve-static');
+const cookieParser = require('cookie-parser');
+const expressSession = require('express-session');
+const slashes = require('connect-slashes');
+const passport = require('passport');
+// LocalStrategy = require('passport-local').Strategy,
+const csrf = require('csurf');
+const compression = require('compression');
 
-var fs = require('fs'),
-    path = require('path'),
-    express = require('express'),
-    app = express(),
-    bodyParser = require('body-parser'),
-    favicon = require('serve-favicon'),
-    morgan = require('morgan'),
-    serveStatic = require('serve-static'),
-    cookieParser = require('cookie-parser'),
-    expressSession = require('express-session'),
-    slashes = require('connect-slashes'),
-    passport = require('passport'),
-    // LocalStrategy = require('passport-local').Strategy,
-    csrf = require('csurf'),
-    compression = require('compression'),
+const config = require('./config');
+const staticFolder = config.staticFolder;
 
-    config = require('./config'),
-    staticFolder = config.staticFolder,
+const Render = require('./render');
+const render = Render.render;
+const dropCache = Render.dropCache; // eslint-disable-line no-unused-vars
 
-    Render = require('./render'),
-    render = Render.render,
-    dropCache = Render.dropCache, // eslint-disable-line no-unused-vars
-
-    port = process.env.PORT || config.defaultPort,
-    isSocket = isNaN(port),
-    isDev = process.env.NODE_ENV === 'development';
+const port = process.env.PORT || config.defaultPort;
+const isSocket = isNaN(port);
+const isDev = process.env.NODE_ENV === 'development';
 
 require('debug-http')();
 

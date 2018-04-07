@@ -1,3 +1,5 @@
-block('page-index').content()(function() {
-    return 'Index page content';
+block('page-index')({
+    content: () => [
+        'Index page content'
+    ]
 });

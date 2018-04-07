@@ -1,20 +1,20 @@
-var fs = require('fs'),
-    path = require('path'),
-    _ = require('lodash'),
-    tinyLr = require('tiny-lr'),
-    notifier = require('node-notifier'),
-    make = require('enb').make,
-    watch = require('chokidar').watch,
+const fs = require('fs');
+const path = require('path');
+const _ = require('lodash');
+const tinyLr = require('tiny-lr');
+const notifier = require('node-notifier');
+const make = require('enb').make;
+const watch = require('chokidar').watch;
 
-    rootDir = path.join(__dirname, '..'),
-    watchOpts = {
-        persistent: true,
-        ignoreInitial: true
-    };
+const rootDir = path.join(__dirname, '..');
+const watchOpts = {
+    persistent: true,
+    ignoreInitial: true
+};
 
 // get bundles list
-var bundlesDir = path.join(rootDir, 'desktop.bundles');
-var bundles = fs.readdirSync(bundlesDir).filter(function(file) {
+const bundlesDir = path.join(rootDir, 'desktop.bundles');
+const bundles = fs.readdirSync(bundlesDir).filter(function(file) {
     return fs.statSync(path.join(bundlesDir, file)).isDirectory();
 });
 
@@ -41,7 +41,7 @@ function rebuild(event, file) {
         });
 }
 
-var debouncedRebuild = _.debounce(rebuild, 30, { leading: true, trailing: true });
+const debouncedRebuild = _.debounce(rebuild, 30, { leading: true, trailing: true });
 
 process.env.NO_AUTOMAKE || watch([
     path.join(rootDir, '*.blocks', '**'),

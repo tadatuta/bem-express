@@ -1,5 +1,5 @@
-block('footer').content()(function() {
-    return [
+block('footer')({
+    content: () => [
         'footer content'
-    ];
+    ]
 });

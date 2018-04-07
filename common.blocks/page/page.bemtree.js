@@ -1,5 +1,5 @@
-block('page').content()(function() {
-    return [
+block('page')({
+    content: () => [
         {
             block: 'header'
         },
@@ -9,5 +9,5 @@ block('page').content()(function() {
         {
             block: 'footer'
         }
-    ];
+    ]
 });

@@ -1,5 +1,5 @@
-block('body').content()(function() {
-    return {
-        block: this.data.view
-    };
+block('body')({
+    content: node => ({
+        block: node.data.view
+    })
 });

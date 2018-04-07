@@ -1,22 +1,22 @@
-var fs = require('fs'),
-    path = require('path'),
-    nodeEval = require('node-eval'),
-    config = require('./config'),
+const fs = require('fs');
+const path = require('path');
+const nodeEval = require('node-eval');
+const config = require('./config');
 
-    bundleName = 'index',
-    pathToBundle = path.resolve('desktop.bundles', bundleName),
+const bundleName = 'index';
+const pathToBundle = path.resolve('desktop.bundles', bundleName);
 
-    isDev = process.env.NODE_ENV === 'development',
-    templates = getTemplates(),
-    useCache = !isDev,
-    cacheTTL = config.cacheTTL,
-    cache = {};
+const isDev = process.env.NODE_ENV === 'development';
+const useCache = !isDev;
+const cacheTTL = config.cacheTTL;
+let templates = getTemplates();
+let cache = Object.create(null);
 
 function render(req, res, data, context) {
-    var query = req.query,
-        user = req.user,
-        cacheKey = req.originalUrl + (context ? JSON.stringify(context) : '') + (user ? JSON.stringify(user) : ''),
-        cached = cache[cacheKey];
+    const query = req.query;
+    const user = req.user;
+    const cacheKey = req.originalUrl + (context ? JSON.stringify(context) : '') + (user ? JSON.stringify(user) : '');
+    const cached = cache[cacheKey];
 
     if (useCache && cached && (new Date() - cached.timestamp < cacheTTL)) {
         return res.send(cached.html);
@@ -24,7 +24,7 @@ function render(req, res, data, context) {
 
     if (isDev && query.json) return res.send('<pre>' + JSON.stringify(data, null, 4) + '</pre>');
 
-    var bemtreeCtx = {
+    const bemtreeCtx = {
         block: 'root',
         context: context,
         // extend with data needed for all routes
@@ -36,8 +36,10 @@ function render(req, res, data, context) {
 
     if (isDev) templates = getTemplates();
 
+    let bemjson;
+
     try {
-        var bemjson = templates.BEMTREE.apply(bemtreeCtx);
+        bemjson = templates.BEMTREE.apply(bemtreeCtx);
     } catch(err) {
         console.error('BEMTREE error', err.stack);
         console.trace('server stack');
@@ -46,8 +48,10 @@ function render(req, res, data, context) {
 
     if (isDev && query.bemjson) return res.send('<pre>' + JSON.stringify(bemjson, null, 4) + '</pre>');
 
+    let html;
+
     try {
-        var html = templates.BEMHTML.apply(bemjson);
+        html = templates.BEMHTML.apply(bemjson);
     } catch(err) {
         console.error('BEMHTML error', err.stack);
         return res.sendStatus(500);
@@ -62,7 +66,7 @@ function render(req, res, data, context) {
 }
 
 function dropCache() {
-    cache = {};
+    cache = Object.create(null);
 }
 
 function evalFile(filename) {

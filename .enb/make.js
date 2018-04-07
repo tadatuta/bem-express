@@ -1,36 +1,36 @@
-var techs = {
-        fileProvider: require('enb/techs/file-provider'),
-        fileMerge: require('enb/techs/file-merge'),
-        fileCopy: require('enb/techs/file-copy'),
-        borschik: require('enb-borschik/techs/borschik'),
-        postcss: require('enb-postcss/techs/enb-postcss'),
-        postcssPlugins: [
-            require('postcss-import')(),
-            require('postcss-each'),
-            require('postcss-for'),
-            require('postcss-simple-vars')(),
-            require('postcss-calc')(),
-            require('postcss-nested'),
-            require('rebem-css'),
-            require('postcss-url')({ url: 'inline' }),
-            require('autoprefixer')()
-        ],
-        browserJs: require('enb-js/techs/browser-js'),
-        bemtree: require('enb-bemxjst/techs/bemtree'),
-        bemhtml: require('enb-bemxjst/techs/bemhtml')
-    },
-    enbBemTechs = require('enb-bem-techs'),
-    levels = [
-        { path: 'node_modules/bem-core/common.blocks', check: false },
-        { path: 'node_modules/bem-core/desktop.blocks', check: false },
-        { path: 'node_modules/bem-components/common.blocks', check: false },
-        { path: 'node_modules/bem-components/desktop.blocks', check: false },
-        { path: 'node_modules/bem-components/design/common.blocks', check: false },
-        { path: 'node_modules/bem-components/design/desktop.blocks', check: false },
-        'common.blocks'
-    ];
+const techs = {
+    fileProvider: require('enb/techs/file-provider'),
+    fileMerge: require('enb/techs/file-merge'),
+    fileCopy: require('enb/techs/file-copy'),
+    borschik: require('enb-borschik/techs/borschik'),
+    postcss: require('enb-postcss/techs/enb-postcss'),
+    postcssPlugins: [
+        require('postcss-import')(),
+        require('postcss-each'),
+        require('postcss-for'),
+        require('postcss-simple-vars')(),
+        require('postcss-calc')(),
+        require('postcss-nested'),
+        require('rebem-css'),
+        require('postcss-url')({ url: 'inline' }),
+        require('autoprefixer')()
+    ],
+    browserJs: require('enb-js/techs/browser-js'),
+    bemtree: require('enb-bemxjst/techs/bemtree'),
+    bemhtml: require('enb-bemxjst/techs/bemhtml')
+};
+const enbBemTechs = require('enb-bem-techs');
+const levels = [
+    { path: 'node_modules/bem-core/common.blocks', check: false },
+    { path: 'node_modules/bem-core/desktop.blocks', check: false },
+    { path: 'node_modules/bem-components/common.blocks', check: false },
+    { path: 'node_modules/bem-components/desktop.blocks', check: false },
+    { path: 'node_modules/bem-components/design/common.blocks', check: false },
+    { path: 'node_modules/bem-components/design/desktop.blocks', check: false },
+    'common.blocks'
+];
 
-var isProd = process.env.YENV === 'production';
+const isProd = process.env.YENV === 'production';
 isProd || levels.push('development.blocks');
 
 module.exports = function(config) {
