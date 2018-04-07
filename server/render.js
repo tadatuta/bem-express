@@ -4,7 +4,7 @@ const nodeEval = require('node-eval');
 const config = require('./config');
 
 const bundleName = 'index';
-const pathToBundle = path.resolve('desktop.bundles', bundleName);
+const pathToBundle = path.resolve(__dirname, '..', 'desktop.bundles', bundleName);
 
 const isDev = process.env.NODE_ENV === 'development';
 const useCache = !isDev;

@@ -15,7 +15,7 @@ const csrf = require('csurf');
 const compression = require('compression');
 
 const config = require('./config');
-const staticFolder = config.staticFolder;
+const staticFolder = path.resolve(__dirname, '..', config.staticFolder);
 
 const Render = require('./render');
 const render = Render.render;
