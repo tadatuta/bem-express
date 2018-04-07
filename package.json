@@ -38,8 +38,10 @@
   "devDependencies": {
     "autoprefixer": "^7.1.1",
     "babel-eslint": "^8.2.2",
+    "bem": "^2.0.0",
     "bem-components": "^6.0.1",
     "bem-core": "^4.2.1",
+    "bem-tools-create": "^2.2.0",
     "bemhint": "^0.9.1",
     "bemhint-css-naming": "^1.0.1",
     "bemhint-deps-specification": "^1.0.0",
