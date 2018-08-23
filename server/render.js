@@ -1,6 +1,5 @@
-const fs = require('fs');
 const path = require('path');
-const nodeEval = require('node-eval');
+const decache = require('decache');
 const config = require('./config');
 
 const bundleName = 'index';
@@ -70,7 +69,11 @@ function dropCache() {
 }
 
 function evalFile(filename) {
-    return nodeEval(fs.readFileSync(filename, 'utf8'), filename);
+    decache(filename);
+    // Fixes memory leak
+    // clean module from links to previous parsed files
+    module.children = module.children.filter(item => item.id !== filename);
+    return require(filename);
 }
 
 function getTemplates() {
