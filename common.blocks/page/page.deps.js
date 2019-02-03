@@ -1,7 +1,7 @@
 ({
     shouldDeps: [
         {
-            mods: { view: ['404'] }
+            mods: { view: '404' }
         },
         'header',
         'body',
