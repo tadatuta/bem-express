@@ -71,6 +71,7 @@ app.get('/', function(req, res) {
         page: 'index',
         bundle: bundle,
         title: 'Main page',
+        device: md.mobile() && !md.tablet() ? 'phone' : (md.tablet() && md.mobile() ? 'tablet' : 'desktop'),
         meta: {
             description: 'Page description',
             og: {
