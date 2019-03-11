@@ -5,11 +5,12 @@ node_modules/
 .svn
 npm-debug.log
 
-static/**/*.min.*
+static/desktop/*.min.*
+static/touch/*.min.*
 
 # bem
 .enb/tmp/
-bundles/**/*.*
-!bundles/**/*.bemdecl.js
-bundles/**/*.tmpl.bemdecl.js
-!bundles/**/.bem/*
+bundles/*/*/*.*
+!bundles/*/*/*.bemdecl.js
+bundles/*/*/*.tmpl.bemdecl.js
+!bundles/*/.bem/*
