@@ -14,7 +14,7 @@ const watchOpts = {
 };
 
 // get bundles list
-const bundlesDir = path.join(rootDir, 'desktop.bundles');
+const bundlesDir = path.join(rootDir, 'bundles/desktop.bundles');
 const bundles = fs.readdirSync(bundlesDir).filter(function(file) {
     return fs.statSync(path.join(bundlesDir, file)).isDirectory();
 });
@@ -45,14 +45,15 @@ function rebuild(event, file) {
 const debouncedRebuild = _.debounce(rebuild, 30, { leading: true, trailing: true });
 
 process.env.NO_AUTOMAKE || watch([
-    path.join(rootDir, '*.blocks', '**'),
+    path.join(rootDir, 'blocks', '**'),
 ].concat(bundles.map(function(bundle) {
     return path.join(bundlesDir, bundle, bundle + '.bemdecl.js');
 })), watchOpts).on('all', debouncedRebuild);
 
 // livereload
 process.env.NO_LIVERELOAD || watch([
-    path.join(rootDir, 'static', '*.min.*'),
+    path.join(rootDir, 'static', 'desktop', '*.min.*'),
+    path.join(rootDir, 'static', 'touch', '*.min.*'),
     path.join(bundlesDir, '*', '*.bemtree.js'),
 ].concat(bundles.map(function(bundle) {
     return path.join(bundlesDir, bundle, bundle + '.bemhtml.js');

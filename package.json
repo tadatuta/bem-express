@@ -79,8 +79,8 @@
     "make": "enb make",
     "drop-cache": "rm -rf .enb/tmp",
     "dev": "npm run make && nodemon",
-    "watch": "chokidar '*.blocks/**' --initial -c 'enb make && notify -t bem-express -m Built'",
+    "watch": "chokidar 'blocks/**' --initial -c 'enb make && notify -t bem-express -m Built'",
     "test": "npm run lint && npm run make",
-    "lint": "eslint . && bemhint . && stylelint *.blocks/**/*.css"
+    "lint": "eslint . && bemhint . && stylelint blocks/**/*.css"
   }
 }
