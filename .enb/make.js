@@ -48,7 +48,7 @@ module.exports = function(config) {
     const platforms = Object.keys(levels);
 
     platforms.forEach(function(platform) {
-        console.log(levels[platform]);
+        
         isProd || levels[platform].push('blocks/development.blocks');
 
         config.nodes('bundles/' + platform + '.bundles/*', function(nodeConfig) {

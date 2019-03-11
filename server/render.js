@@ -104,7 +104,7 @@ function dropCache() {
 }
 
 function evalFile(filename) {
-    console.log(123);
+    
     return nodeEval(fs.readFileSync(filename, 'utf8'), filename);
 }
 
