@@ -1,15 +1,40 @@
 const path = require('path');
-const decache = require('decache');
 const config = require('./config');
+const fs = require('fs');
+const nodeEval = require('node-eval');
 
-const bundleName = 'index';
-const pathToBundle = path.resolve(__dirname, '..', 'desktop.bundles', bundleName);
+
+
 
 const isDev = process.env.NODE_ENV === 'development';
 const useCache = !isDev;
 const cacheTTL = config.cacheTTL;
-let templates = getTemplates();
+let templates = null;
 let cache = Object.create(null);
+
+
+const bundles = getDirectories('./bundles/desktop.bundles'),
+    bundlesTemplates = {};
+
+bundles.forEach(function (bundle) {
+
+
+    let pathToBundle = path.resolve('bundles', 'desktop.bundles', bundle),
+        BEMTREE = require(path.join(pathToBundle, bundle + '.bemtree.js')),
+        BEMHTML = require(path.join(pathToBundle, bundle + '.bemhtml.js'));
+
+    bundlesTemplates['desktop-' + bundle] = Object.assign(BEMTREE, BEMHTML);
+
+
+    pathToBundle = path.resolve('bundles', 'touch.bundles', bundle);
+    BEMTREE = require(path.join(pathToBundle, bundle + '.bemtree.js'));
+    BEMHTML = require(path.join(pathToBundle, bundle + '.bemhtml.js'));
+
+    bundlesTemplates['touch-' + bundle] = Object.assign(BEMTREE, BEMHTML);
+
+});
+
+
 
 function render(req, res, data, context) {
     const query = req.query;
@@ -33,12 +58,17 @@ function render(req, res, data, context) {
         }, data)
     };
 
-    if (isDev) templates = getTemplates();
+    if (isDev) templates = getTemplates(data.page, data.bundle);
 
     let bemjson;
 
     try {
-        bemjson = templates.BEMTREE.apply(bemtreeCtx);
+        if (isDev) {
+            bemjson = templates.BEMTREE.apply(bemtreeCtx);
+        }
+        else {
+            bemjson = bundlesTemplates[data.bundle + '-' + data.page] && bundlesTemplates[data.bundle + '-' + data.page].BEMTREE.apply(bemtreeCtx);
+        }
     } catch(err) {
         console.error('BEMTREE error', err.stack);
         console.trace('server stack');
@@ -50,7 +80,12 @@ function render(req, res, data, context) {
     let html;
 
     try {
-        html = templates.BEMHTML.apply(bemjson);
+        if (isDev) {
+            html = templates.BEMHTML.apply(bemjson);
+        }
+        else {
+            html = bundlesTemplates[data.bundle + '-' + data.page] && bundlesTemplates[data.bundle + '-' + data.page].BEMHTML.apply(bemjson);
+        }
     } catch(err) {
         console.error('BEMHTML error', err.stack);
         return res.sendStatus(500);
@@ -69,18 +104,23 @@ function dropCache() {
 }
 
 function evalFile(filename) {
-    decache(filename);
-    // Fixes memory leak
-    // clean module from links to previous parsed files
-    module.children = module.children.filter(item => item.id !== filename);
-    return require(filename);
+    
+    return nodeEval(fs.readFileSync(filename, 'utf8'), filename);
 }
 
-function getTemplates() {
+function getTemplates(bundleName = 'index', level = 'desktop') {
+    var pathToBundle = path.resolve('bundles', level + '.bundles', bundleName);
+    //console.log(pathToBundle);
     return {
         BEMTREE: evalFile(path.join(pathToBundle, bundleName + '.bemtree.js')).BEMTREE,
         BEMHTML: evalFile(path.join(pathToBundle, bundleName + '.bemhtml.js')).BEMHTML
     };
+}
+
+function getDirectories(_path) {
+    return fs.readdirSync(_path).filter(function (file) {
+        return fs.statSync(_path + '/' + file).isDirectory();
+    });
 }
 
 module.exports = {

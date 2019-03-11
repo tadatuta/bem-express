@@ -7,6 +7,7 @@ Almost the same as [project-stub](https://github.com/bem/project-stub/) but with
 ## Installation
 
 ```sh
+npm i -g enb
 git clone https://github.com/bem/bem-express.git
 cd bem-express
 npm i

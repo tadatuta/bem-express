@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const slashes = require('connect-slashes');
 const passport = require('passport');
+const mobileDetect = require('mobile-detect');
 // LocalStrategy = require('passport-local').Strategy,
 const csrf = require('csurf');
 const compression = require('compression');
@@ -61,9 +62,16 @@ app.get('/ping/', function(req, res) {
 });
 
 app.get('/', function(req, res) {
+
+    const md = new mobileDetect(req.headers['user-agent']);
+    const bundle = md.tablet() || md.mobile() ? 'touch' : 'desktop';
+
     render(req, res, {
         view: 'page-index',
+        page: 'index',
+        bundle: bundle,
         title: 'Main page',
+        device: md.mobile() && !md.tablet() ? 'phone' : (md.tablet() && md.mobile() ? 'tablet' : 'desktop'),
         meta: {
             description: 'Page description',
             og: {
