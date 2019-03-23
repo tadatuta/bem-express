@@ -61,6 +61,8 @@ app.get('/ping/', function(req, res) {
 });
 
 app.get('/', function(req, res) {
+    +   var hello = 'Hello';
++   var world = 'World';
     render(req, res, {
         view: 'page-index',
         title: 'Main page',
@@ -70,7 +72,9 @@ app.get('/', function(req, res) {
                 url: 'https://site.com',
                 siteName: 'Site name'
             }
-        }
+        },
++       hello: hello,
++       world: world
     })
 });
 
